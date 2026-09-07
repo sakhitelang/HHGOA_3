@@ -303,19 +303,31 @@ def run_verification(req: VerifyRequest):
     """
     chain = SimulatedChain()
     if not chain.blocks:
-        raise HTTPException(status_code=400, detail="Blockchain is empty. Run upload stage first.")
+        raise HTTPException(
+            status_code=400,
+            detail="Blockchain ledger is empty (0 blocks). Please run Stages 0–4 on the Pipeline Runner tab first to mint your on-chain block!"
+        )
 
     target_block = None
-    if req.url:
-        target_block = chain.find_by_url(req.url)
+    url_query = req.url.strip() if req.url and req.url.strip() else None
+
+    if url_query:
+        target_block = chain.find_by_url(url_query)
         if not target_block:
-            raise HTTPException(status_code=404, detail=f"No block found with URL: {req.url}")
+            available = [b.metadata.get("url", f"Block #{b.index}") for b in chain.blocks]
+            raise HTTPException(
+                status_code=404,
+                detail=f"No on-chain block found matching '{url_query}'. Active blocks in ledger: {len(chain.blocks)} ({', '.join(available)})"
+            )
     elif req.block_index is not None:
         if 0 <= req.block_index < len(chain.blocks):
             target_block = chain.blocks[req.block_index]
         else:
-            raise HTTPException(status_code=404, detail=f"Invalid block index {req.block_index}")
+            raise HTTPException(status_code=404, detail=f"Invalid block index #{req.block_index}. Total blocks: {len(chain.blocks)}")
     else:
+        target_block = chain.latest()
+
+    if not target_block:
         target_block = chain.latest()
 
     url = target_block.metadata.get("url", "")

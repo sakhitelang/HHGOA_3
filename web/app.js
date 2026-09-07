@@ -624,7 +624,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       log(`[STAGE 5] Audit result: ${data.verdict} (Integrity: ${data.chain_integrity}, Match: ${data.hash_match})`, isPass ? "ok" : "fail");
     } catch (e) {
-      alert(`Verification error: ${e.message}`);
+      verdictBanner.className = "verdict-banner fail";
+      verdictIcon.textContent = "⚠";
+      verdictTitle.textContent = "VERIFICATION STOPPED";
+      verdictSub.textContent = e.message;
+      auditTableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:16px;color:var(--status-fail);font-weight:700;">${e.message}</td></tr>`;
+      verifyResultBox.style.display = "block";
       log(`[STAGE 5] Error: ${e.message}`, "fail");
     } finally {
       btnTriggerVerify.disabled = false;
