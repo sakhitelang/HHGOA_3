@@ -1,0 +1,15 @@
+deepface>=0.0.90
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+google-cloud-vision>=3.5.0
+google-search-results>=2.4.2
+python-dotenv>=1.0.0
+rich>=13.7.0
+Pillow>=10.0.0
+tf-keras>=2.16.0
+fastapi>=0.110.0
+uvicorn>=0.28.0
+python-multipart>=0.0.9
+

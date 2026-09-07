@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HH GOA | Face ID & Blockchain Verification Pipeline</title>
+  <meta name="description" content="Hacker House Goa 2026 Task #3: Face Detection, Reverse Social Search, and Cryptographic Blockchain Verification Pipeline.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="theme-light">
+  <!-- Top Ticker Bar -->
+  <div class="ticker-bar" id="tickerBar">
+    <div class="ticker-content">
+      <span class="ticker-item"><span class="star">✦</span> GOA, INDIA · 28 – 31 OCT 2026</span>
+      <span class="ticker-item"><span class="star">✦</span> 2:47 PM STUDIO</span>
+      <span class="ticker-item"><span class="star">✦</span> LESS NOISE. MORE SIGNAL.</span>
+      <span class="ticker-item"><span class="star">✦</span> TASK #3: FACE ID + BLOCKCHAIN VERIFICATION</span>
+      <span class="ticker-item"><span class="star">✦</span> SIMULATED HASH CHAIN & CONSENT ARCHITECTURE</span>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="main-nav">
+    <div class="nav-container">
+      <div class="brand-group">
+        <a href="/" class="brand-logo">
+          <span class="hh-badge">HH GOA</span>
+          <span class="edition-tag">2026</span>
+        </a>
+        <div class="header-divider"></div>
+        <div class="header-tagline">Face ID + Blockchain Pipeline</div>
+      </div>
+      
+      <div class="nav-actions">
+        <div class="status-pill online">
+          <span class="pulse-dot"></span>
+          <span id="systemStatusText">SYSTEM ACTIVE</span>
+        </div>
+        <a href="https://hhgoa.com" target="_blank" rel="noopener noreferrer" class="hh-link-btn">
+          HHGOA.COM ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mandatory PRD Legal / Privacy Disclaimer Banner -->
+  <div class="disclaimer-banner-container">
+    <div class="disclaimer-box">
+      <div class="disclaimer-icon">⚠️</div>
+      <div class="disclaimer-text">
+        <strong>SIMULATED PIPELINE · CONSENTED TEST IMAGES ONLY</strong>
+        <p>Developer & team consented demo only · No liveness detection · Hash-only verification · Simulated tamper-evident blockchain · Embeddings kept in memory only and never saved to disk.</p>
+      </div>
+      <div class="disclaimer-badge">PRIVACY-FIRST</div>
+    </div>
+  </div>
+
+  <!-- Main Application Container -->
+  <main class="app-layout">
+    
+    <!-- Hero / Headline Section -->
+    <section class="hero-section">
+      <div class="hero-pill">
+        <span class="star">✦</span> TASK #3 SUBMISSION DEMO
+      </div>
+      <h1 class="hero-title">Face Identification & <br><span class="highlight-text">Blockchain Verification</span></h1>
+      <p class="hero-subtitle">
+        An end-to-end cryptographic pipeline: Consented face scan <span class="arr">→</span> genuine reverse-image social search <span class="arr">→</span> tamper-evident blockchain recording <span class="arr">→</span> independent re-verification proof.
+      </p>
+
+      <!-- Navigation Tabs -->
+      <nav class="pipeline-tabs" id="tabNav">
+        <button class="tab-btn active" data-tab="runner">
+          <span class="tab-num">01</span>
+          <span class="tab-name">Pipeline Runner</span>
+        </button>
+        <button class="tab-btn" data-tab="verifier">
+          <span class="tab-num">02</span>
+          <span class="tab-name">Independent Verifier</span>
+        </button>
+        <button class="tab-btn" data-tab="explorer">
+          <span class="tab-num">03</span>
+          <span class="tab-name">Blockchain Ledger</span>
+          <span class="tab-counter" id="chainCountBadge">0</span>
+        </button>
+        <button class="tab-btn" data-tab="tamper">
+          <span class="tab-num">04</span>
+          <span class="tab-name">Tamper Sandbox</span>
+        </button>
+        <button class="tab-btn" data-tab="whitelist">
+          <span class="tab-num">05</span>
+          <span class="tab-name">Consent Whitelist</span>
+        </button>
+      </nav>
+    </section>
+
+    <!-- TAB 1: Pipeline Runner -->
+    <section class="tab-content active" id="tab-runner">
+      <div class="split-view">
+        
+        <!-- Left Panel: Input & Controls -->
+        <div class="panel-card input-panel">
+          <div class="panel-header">
+            <div class="panel-tag">STAGE 0 – 4</div>
+            <h3 class="panel-title">Upload & Scan</h3>
+          </div>
+
+          <!-- Drag and Drop Dropzone -->
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display:none">
+            <div class="dropzone-content" id="dropzonePrompt">
+              <div class="upload-icon">📷</div>
+              <h4>Drop consented photo here</h4>
+              <p class="dim-text">or click to browse files (JPEG, PNG)</p>
+              <div class="dropzone-badge">SHA-256 CHECK ENFORCED</div>
+            </div>
+            
+            <div class="preview-container" id="previewContainer" style="display:none;">
+              <div class="canvas-wrapper">
+                <canvas id="faceCanvas"></canvas>
+                <div class="scan-line" id="scanLine"></div>
+              </div>
+              <div class="image-meta-strip">
+                <span id="previewFilename">image.jpg</span>
+                <span id="previewSize">-- KB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Test Samples -->
+          <div class="sample-pills-row">
+            <span class="sample-label">Quick Test Images:</span>
+            <button class="sample-btn" id="btnSampleValid" title="Load sample image and test with consent">
+              ✓ Whitelisted Demo
+            </button>
+            <button class="sample-btn reject-style" id="btnSampleInvalid" title="Load non-whitelisted image to verify Stage 0 block">
+              ✗ Non-Whitelisted (Fail Test)
+            </button>
+          </div>
+
+          <!-- Real-Time Computed Hash Inspection -->
+          <div class="hash-preview-card" id="hashCard" style="display:none;">
+            <div class="hash-row">
+              <span class="hash-label">Image SHA-256:</span>
+              <code class="hash-val" id="computedFileHash">calculating...</code>
+            </div>
+            <div class="whitelist-status-badge" id="hashWhitelistBadge">
+              CHECKING CONSENT STATUS...
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <label class="toggle-control">
+              <input type="checkbox" id="autoWhitelistCheck">
+              <span class="toggle-slider"></span>
+              <span class="toggle-text">Auto-whitelist on upload (consent helper)</span>
+            </label>
+
+            <div class="custom-url-row" id="customUrlRow" style="margin-top:4px;">
+              <label style="font-family:var(--font-mono);font-size:11.5px;font-weight:800;color:var(--brand-green);display:block;margin-bottom:4px;">
+                ✦ Person Name / Social Handle Search Query (Optional):
+              </label>
+              <input type="text" id="customSocialUrlInput" class="form-input" placeholder="e.g. your_instagram_handle, full name, or leave blank for auto-search">
+            </div>
+
+            <button class="primary-btn" id="btnRunPipeline" disabled style="margin-top:10px;">
+              <span class="btn-star">✦</span> RUN PIPELINE STAGES 0–4
+            </button>
+            <button class="secondary-btn" id="btnResetUpload" style="display:none;">
+              Reset Image
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Panel: Live Pipeline Progression -->
+        <div class="panel-card progress-panel">
+          <div class="panel-header">
+            <div class="panel-tag">EXECUTION TELEMETRY</div>
+            <h3 class="panel-title">Pipeline Stage Monitor</h3>
+          </div>
+
+          <!-- Stage Progress Stepper -->
+          <div class="stepper-track">
+            
+            <!-- Stage 0 -->
+            <div class="step-card" id="stepCard0">
+              <div class="step-num-bubble">0</div>
+              <div class="step-body">
+                <div class="step-top">
+                  <span class="step-title">Stage 0 · Consent Gate</span>
+                  <span class="step-badge" id="stepBadge0">WAITING</span>
+                </div>
+                <div class="step-desc">SHA-256 hash whitelist comparison. Fails loudly on unconsented input.</div>
+                <div class="step-detail" id="stepDetail0"></div>
+              </div>
+            </div>
+
+            <!-- Stage 1 -->
+            <div class="step-card" id="stepCard1">
+              <div class="step-num-bubble">1</div>
+              <div class="step-body">
+                <div class="step-top">
+                  <span class="step-title">Stage 1 · Face Detection & Encoding</span>
+                  <span class="step-badge" id="stepBadge1">WAITING</span>
+                </div>
+                <div class="step-desc">OpenCV Haar / DeepFace vector embedding (kept strictly in-memory, never persisted).</div>
+                <div class="step-detail" id="stepDetail1"></div>
+              </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="step-card" id="stepCard2">
+              <div class="step-num-bubble">2</div>
+              <div class="step-body">
+                <div class="step-top">
+                  <span class="step-title">Stage 2 · Reverse Image Search</span>
+                  <span class="step-badge" id="stepBadge2">WAITING</span>
+                </div>
+                <div class="step-desc">Google Cloud Vision / SerpApi search filtered to Instagram, X, LinkedIn, Facebook.</div>
+                <div class="step-detail" id="stepDetail2"></div>
+              </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="step-card" id="stepCard3">
+              <div class="step-num-bubble">3</div>
+              <div class="step-body">
+                <div class="step-top">
+                  <span class="step-title">Stage 3 · Post Retrieval & Hashing</span>
+                  <span class="step-badge" id="stepBadge3">WAITING</span>
+                </div>
+                <div class="step-desc">Extracts post metadata/content and generates deterministic content SHA-256 digest.</div>
+                <div class="step-detail" id="stepDetail3"></div>
+              </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="step-card" id="stepCard4">
+              <div class="step-num-bubble">4</div>
+              <div class="step-body">
+                <div class="step-top">
+                  <span class="step-title">Stage 4 · Blockchain Upload</span>
+                  <span class="step-badge" id="stepBadge4">WAITING</span>
+                </div>
+                <div class="step-desc">Mints new block linked via previous_hash cryptographic pointer to simulated ledger.</div>
+                <div class="step-detail" id="stepDetail4"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Actions After Upload -->
+          <div class="success-callout" id="uploadSuccessCallout" style="display:none;">
+            <div class="callout-heading">
+              <span>✓</span> PIPELINE STAGES 0–4 COMPLETE
+            </div>
+            <p>Block written to chain ledger. Now proceed to independent re-verification to prove tamper-evidence.</p>
+            <button class="callout-action-btn" id="btnGoToVerify">
+              PROCEED TO STAGE 5 VERIFICATION ↗
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Live Terminal Log Component -->
+      <div class="terminal-card">
+        <div class="terminal-bar">
+          <div class="term-dots">
+            <span class="term-dot red"></span>
+            <span class="term-dot yellow"></span>
+            <span class="term-dot green"></span>
+          </div>
+          <div class="term-title">PIPELINE TERMINAL OUTPUT (RICH/CLI EMULATOR)</div>
+          <button class="term-clear-btn" id="btnClearLogs">Clear</button>
+        </div>
+        <div class="terminal-body" id="termLogs">
+          <div class="log-line info">[INIT] HH Goa Face ID & Blockchain Pipeline Ready.</div>
+          <div class="log-line info">[CONSENT] Privacy architecture loaded. Only whitelisted SHA-256 hashes permitted.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Independent Verifier -->
+    <section class="tab-content" id="tab-verifier">
+      <div class="verifier-container">
+        <div class="panel-card verifier-panel">
+          <div class="panel-header">
+            <div class="panel-tag">STAGE 5 · INDEPENDENT AUDIT</div>
+            <h3 class="panel-title">Tamper-Evidence & Integrity Verifier</h3>
+          </div>
+          <p class="verifier-desc">
+            The verification process runs independently from the upload process. It reads the target block from the blockchain, re-fetches the live post content, recomputes the SHA-256 hash, and verifies all cryptographic previous-hash links across the entire ledger.
+          </p>
+
+          <div class="verify-form-group">
+            <label for="verifyUrlInput">Social Post URL or Block Target:</label>
+            <div class="input-with-btn">
+              <input type="text" id="verifyUrlInput" placeholder="Leave empty for latest block or enter URL (e.g., https://x.com/...)">
+              <button class="primary-btn" id="btnTriggerVerify">
+                <span class="btn-star">✦</span> VERIFY ON-CHAIN RECORD
+              </button>
+            </div>
+          </div>
+
+          <!-- Verification Result Panel -->
+          <div class="verification-result-box" id="verifyResultBox" style="display:none;">
+            <div class="verdict-banner" id="verdictBanner">
+              <span class="verdict-icon" id="verdictIcon">✓</span>
+              <div class="verdict-info">
+                <h2 id="verdictTitle">VERIFICATION PASS</h2>
+                <p id="verdictSub">Independent re-hash matches the stored on-chain record and chain integrity is unbroken.</p>
+              </div>
+            </div>
+
+            <div class="audit-table-wrap">
+              <table class="audit-table">
+                <thead>
+                  <tr>
+                    <th>Verification Audit Item</th>
+                    <th>Observed Cryptographic Value / Check</th>
+                    <th class="text-center">Verdict</th>
+                  </tr>
+                </thead>
+                <tbody id="auditTableBody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="hash-comparison-grid">
+              <div class="hash-box">
+                <div class="hash-box-label">STORED ON-CHAIN DATA_HASH</div>
+                <code class="hash-box-val" id="storedHashVal">--</code>
+              </div>
+              <div class="hash-box">
+                <div class="hash-box-label">INDEPENDENT RE-COMPUTED HASH</div>
+                <code class="hash-box-val" id="recomputedHashVal">--</code>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Blockchain Ledger Explorer -->
+    <section class="tab-content" id="tab-explorer">
+      <div class="explorer-container">
+        <div class="panel-card">
+          <div class="panel-header explorer-top">
+            <div>
+              <div class="panel-tag">SIMULATED HASH CHAIN</div>
+              <h3 class="panel-title">Blockchain Ledger Explorer</h3>
+            </div>
+            <div class="chain-meta-group">
+              <div class="chain-status-pill" id="chainIntegrityPill">
+                INTEGRITY: VALID
+              </div>
+              <button class="danger-outline-btn" id="btnResetChain">
+                Reset Chain
+              </button>
+            </div>
+          </div>
+
+          <!-- Chain Visualizer -->
+          <div class="blockchain-ribbon" id="blockchainRibbon">
+            <div class="empty-chain-placeholder" id="emptyChainMsg">
+              No blocks recorded yet. Run the pipeline upload stage to mint Block #0.
+            </div>
+          </div>
+
+          <!-- Block Detail Inspector -->
+          <div class="block-inspector-panel" id="blockInspector" style="display:none;">
+            <h4 class="inspector-title" id="inspectorHeader">Block #0 Inspection</h4>
+            <div class="inspector-json-wrap">
+              <pre><code id="inspectorJson">{}</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Tamper Sandbox -->
+    <section class="tab-content" id="tab-tamper">
+      <div class="panel-card sandbox-panel">
+        <div class="panel-header">
+          <div class="panel-tag">SECURITY DEMONSTRATION</div>
+          <h3 class="panel-title">Cryptographic Tamper-Evidence Sandbox</h3>
+        </div>
+        <p class="sandbox-desc">
+          Test the immutable nature of the blockchain! Modify the payload or hash of any block on disk. Then run independent verification to watch the cryptographic seal fail instantly.
+        </p>
+
+        <div class="sandbox-grid">
+          <div class="sandbox-input-card">
+            <h4>1. Select Block to Modify</h4>
+            <select id="tamperBlockSelect" class="form-select">
+              <option value="">-- Select a block --</option>
+            </select>
+
+            <h4 style="margin-top:16px;">2. Inject Corrupted / Tampered Data Hash</h4>
+            <input type="text" id="tamperNewData" class="form-input" value="tampered_unauthorized_content_hash_12345">
+
+            <button class="danger-btn" id="btnInjectTamper" style="margin-top:16px;">
+              ⚠️ INJECT TAMPERED HASH INTO CHAIN
+            </button>
+          </div>
+
+          <div class="sandbox-output-card">
+            <h4>3. Tamper Feedback</h4>
+            <div class="tamper-status-log" id="tamperStatusLog">
+              Select a block and click inject to test tamper detection.
+            </div>
+
+            <button class="primary-btn" id="btnVerifyTamper" style="margin-top:16px;" disabled>
+              TEST VERIFICATION NOW ↗
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: Consent Whitelist -->
+    <section class="tab-content" id="tab-whitelist">
+      <div class="panel-card whitelist-panel">
+        <div class="panel-header">
+          <div class="panel-tag">PRIVACY ARCHITECTURE</div>
+          <h3 class="panel-title">Consent Whitelist Manager</h3>
+        </div>
+        <p class="whitelist-desc">
+          Under strict privacy guidelines, only images whose SHA-256 digest exists in <code>consent/whitelist.json</code> will be processed. Any other input is blocked at Stage 0 before face encoding or search.
+        </p>
+
+        <div class="whitelist-add-form">
+          <input type="text" id="newWhitelistHash" class="form-input font-mono" placeholder="Enter 64-character SHA-256 hash...">
+          <button class="primary-btn" id="btnAddHash">
+            + ADD HASH
+          </button>
+        </div>
+
+        <div class="whitelist-list-container">
+          <h4 class="list-heading">Currently Whitelisted SHA-256 Hashes (<span id="whitelistCount">0</span>)</h4>
+          <div class="whitelist-items" id="whitelistItems">
+            <div class="empty-list-msg">No hashes currently whitelisted.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-logo">HH GOA 2026</span>
+        <span class="footer-sub">Task #3 · Face ID + Blockchain Verification Pipeline</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://hhgoa.com" target="_blank" rel="noopener noreferrer">Official Website</a>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer">Source Repo</a>
+        <span>2:47 PM STUDIO</span>
+        <span>© 2026 HH-Goa. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

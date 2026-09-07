@@ -1,0 +1,9 @@
+{
+  "allowed_hashes": [
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "323982c8947d29cab20d05f48ad22a0d2257ac701a9ef4147f40646f39e85598",
+    "72fe51faa90466d5a4a77d7c328f31e02f3d120d508750d2b2ef221f52948ab6",
+    "c0e9bab3d4ec4979763f81c9e5470a7d865d1506e21e0e47bcec631833d2de62"
+  ],
+  "note": "SHA-256 hashes of consented test images only. Run: python scripts/generate_whitelist.py test_images/your_photo.jpg"
+}

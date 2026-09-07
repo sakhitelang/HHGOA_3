@@ -1,0 +1,7 @@
+# Place consented test images here.
+# Do NOT commit personal photos to the public repo.
+#
+# Setup:
+#   1. Copy your consented photo here
+#   2. Verify it's indexed on Google Images BEFORE running the pipeline
+#   3. python scripts/generate_whitelist.py test_images/your_photo.jpg

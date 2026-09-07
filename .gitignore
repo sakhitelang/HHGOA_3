@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.Python
+venv/
+.venv/
+data/chain.json
+*.egg-info/
+.DS_Store
+test_images/_non_whitelisted_demo.jpg
+credentials.json
+service-account*.json
