@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentFileHash = "";
   let whitelistedHashes = [];
   let isRunning = false;
+  let latestMintedUrl = "";
 
   // DOM Elements - Navigation & Theme
   const themeToggleBtn = document.getElementById("themeToggleBtn");
@@ -110,10 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (targetTab === "explorer") fetchBlockchain();
       if (targetTab === "tamper") populateTamperSelect();
       if (targetTab === "whitelist") fetchWhitelist();
+      if (targetTab === "verifier" && !verifyUrlInput.value.trim() && latestMintedUrl) {
+        verifyUrlInput.value = latestMintedUrl;
+      }
     });
   });
 
   btnGoToVerify.addEventListener("click", () => {
+    if (latestMintedUrl) {
+      verifyUrlInput.value = latestMintedUrl;
+    }
     document.querySelector('[data-tab="verifier"]').click();
   });
 
@@ -549,6 +556,11 @@ document.addEventListener("DOMContentLoaded", () => {
         `BLOCK #${blk.index} MINTED`,
         `Block Hash: <code>${blk.block_hash.slice(0, 28)}…</code><br>Prev Hash: <code>${blk.previous_hash.slice(0, 28)}…</code>`
       );
+
+      latestMintedUrl = resData.match ? resData.match.url : "";
+      if (latestMintedUrl) {
+        verifyUrlInput.value = latestMintedUrl;
+      }
 
       uploadSuccessCallout.style.display = "block";
       fetchBlockchain();

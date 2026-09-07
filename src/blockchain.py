@@ -31,6 +31,17 @@ class Block:
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+def _normalize_url(u: str) -> str:
+    if not u:
+        return ""
+    clean = u.strip().lower()
+    if not (clean.startswith("http://") or clean.startswith("https://")):
+        clean = "https://" + clean.lstrip("/")
+    clean = clean.replace("https://www.", "https://").replace("http://www.", "http://")
+    clean = clean.split("?")[0].split("#")[0].rstrip("/")
+    return clean
+
+
 class SimulatedChain:
     GENESIS = "0" * 64
 
@@ -79,7 +90,37 @@ class SimulatedChain:
         return True
 
     def find_by_url(self, url: str) -> Optional[Block]:
+        if not url or not url.strip():
+            return None
+        
+        target_clean = _normalize_url(url)
+        # Extract handle if applicable
+        raw_part = url.strip().lstrip("@").rstrip("/").split("/")[-1].split("?")[0].lower()
+        target_handle = raw_part if len(raw_part) >= 2 else None
+
         for block in reversed(self.blocks):
-            if block.metadata.get("url") == url:
+            # 1. Check primary URL
+            primary = block.metadata.get("url", "")
+            if primary:
+                if _normalize_url(primary) == target_clean:
+                    return block
+                if target_handle and target_handle in primary.lower():
+                    return block
+
+            # 2. Check all discovered linked social accounts
+            for acc in block.metadata.get("discovered_accounts", []):
+                acc_url = acc.get("url", "")
+                if acc_url:
+                    if _normalize_url(acc_url) == target_clean:
+                        return block
+                    if target_handle and target_handle in acc_url.lower():
+                        return block
+
+            # 3. Check metadata title & snippet
+            title = block.metadata.get("title", "").lower()
+            snippet = block.metadata.get("snippet", "").lower()
+            if target_handle and (target_handle in title or target_handle in snippet):
                 return block
+
         return None
+
